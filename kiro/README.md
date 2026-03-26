@@ -4,7 +4,7 @@ This project demonstrates how to use [Kiro](https://kiro.dev)'s spec-driven appr
 
 ## What is Spec-Driven Development in Kiro?
 
-Kiro introduces a structured workflow where you define *what* to build before writing any code. A spec lives in `.kiro/specs/<feature>/` and consists of three documents that cascade into each other:
+Kiro introduces a structured workflow where you define _what_ to build before writing any code. A spec lives in `.kiro/specs/<feature>/` and consists of three documents that cascade into each other:
 
 ```
 .kiro/specs/todo-app/
@@ -21,7 +21,7 @@ Write user stories and acceptance criteria in plain language. Each requirement i
 > Requirement 2.3: The Frontend SHALL display each task's title, description, reminder and completion status in the same row except description to next row.
 
 **2. Design**
-Kiro generates (or you author) a design doc that translates requirements into architecture decisions — component interfaces, data models, API contracts, and *correctness properties*. Properties are formal statements about system behaviour that map 1-to-1 to tests:
+Kiro generates (or you author) a design doc that translates requirements into architecture decisions — component interfaces, data models, API contracts, and _correctness properties_. Properties are formal statements about system behaviour that map 1-to-1 to tests:
 
 > Property 4: For any task returned by the API, the rendered DOM element should contain the task's title, description (if present), and completion status indicator. If `remind_at` is set, the reminder time SHALL be displayed in the same row as the title and controls.
 
@@ -30,10 +30,14 @@ The design breaks down into an ordered, checkable implementation plan. Each task
 
 ```markdown
 - [x] 6.5 Implement PUT /tasks/{task_id} and DELETE /tasks/{task_id}
-    - Raise HTTPException(404) for unknown IDs
-    - On delete, call cancel_reminder(task_id)
-    - _Requirements: 3.1, 3.2, 4.1, 4.2, 4.4_
+  - Raise HTTPException(404) for unknown IDs
+  - On delete, call cancel_reminder(task_id)
+  - _Requirements: 3.1, 3.2, 4.1, 4.2, 4.4_
 ```
+
+**Part of these tasks, we can emphasize the tests creation by specifying the
+details, test techniques or edge cases in the steering docs; so Kiro use those as skills, and implement the tests.
+Ex. Use playwright and create UI tests for end-to-end user scenarios**
 
 ### Steering Files
 
