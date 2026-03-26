@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Requirements Cascade Update",
+  "description": "When requirements.md is updated, automatically update the design and tasks docs, implement the required changes, and add necessary tests",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      ".kiro/specs/**/requirements.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "The requirements file has been updated. Please do the following in order:\n1. Review the changes in the requirements file\n2. Update the design doc (.kiro/specs/todo-app/design.md) to reflect any architectural or design changes needed\n3. Update the tasks doc (.kiro/specs/todo-app/tasks.md) with new or modified implementation tasks\n4. Implement the code changes required by the updated requirements\n5. Add or update tests to cover the new or changed functionality"
+  }
+}

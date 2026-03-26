@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+apscheduler
+hypothesis
+pytest
+httpx
