@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ToDo OpenSpec App</title>
+    <style>
+      :root {
+        --bg-color: #f7f7fb;
+        --text-color: #222;
+        --card-bg: #ffffff;
+        --card-border: #ddd;
+        --error-bg: #ffe5e5;
+        --error-color: #8a1f1f;
+        --error-border: #f2b8b8;
+        --done-color: #666;
+        --toggle-bg: #e0e0e0;
+      }
+
+      [data-theme="dark"] {
+        --bg-color: #1a1a2e;
+        --text-color: #e0e0e0;
+        --card-bg: #16213e;
+        --card-border: #444;
+        --error-bg: #4a1a1a;
+        --error-color: #ffaaaa;
+        --error-border: #7a3333;
+        --done-color: #888;
+        --toggle-bg: #333;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg-color: #1a1a2e;
+          --text-color: #e0e0e0;
+          --card-bg: #16213e;
+          --card-border: #444;
+          --error-bg: #4a1a1a;
+          --error-color: #ffaaaa;
+          --error-border: #7a3333;
+          --done-color: #888;
+          --toggle-bg: #333;
+        }
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        margin: 2rem auto;
+        max-width: 720px;
+        padding: 0 1rem;
+        background: var(--bg-color);
+        color: var(--text-color);
+        transition: background 0.2s, color 0.2s;
+      }
+      h1 {
+        margin-bottom: 0.5rem;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .toggle-btn {
+        background: var(--toggle-bg);
+        color: var(--text-color);
+        border: 1px solid var(--card-border);
+        border-radius: 4px;
+        padding: 0.4rem 0.8rem;
+        cursor: pointer;
+        font-size: 0.85rem;
+      }
+      form {
+        margin-bottom: 1rem;
+      }
+      input[type="text"] {
+        padding: 0.5rem;
+        width: 70%;
+        background: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid var(--card-border);
+      }
+      button {
+        padding: 0.5rem 0.8rem;
+        cursor: pointer;
+      }
+      .error {
+        background: var(--error-bg);
+        color: var(--error-color);
+        padding: 0.6rem 0.8rem;
+        border: 1px solid var(--error-border);
+        margin-bottom: 1rem;
+      }
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      li {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: 0.7rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .done {
+        text-decoration: line-through;
+        color: var(--done-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header-row">
+      <h1>ToDo List</h1>
+      <button class="toggle-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+    </div>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form action="/tasks" method="post">
+      <input type="text" name="title" placeholder="Add a task..." />
+      <button type="submit">Add</button>
+    </form>
+
+    <ul>
+      {% for task in tasks %}
+        <li>
+          <span class="{{ 'done' if task.done else '' }}">{{ task.title }}</span>
+          {% if not task.done %}
+            <form action="/tasks/{{ task.id }}/complete" method="post" style="margin:0">
+              <button type="submit">Complete</button>
+            </form>
+          {% else %}
+            <span>Done</span>
+          {% endif %}
+        </li>
+      {% else %}
+        <li>No tasks yet.</li>
+      {% endfor %}
+    </ul>
+
+    <script>
+      (function () {
+        var saved = localStorage.getItem("theme");
+        if (saved) {
+          document.documentElement.setAttribute("data-theme", saved);
+        }
+      })();
+
+      function toggleTheme() {
+        var current = document.documentElement.getAttribute("data-theme");
+        var next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+      }
+    </script>
+  </body>
+</html>
