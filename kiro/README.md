@@ -36,9 +36,11 @@ The design breaks down into an ordered, checkable implementation plan. Each task
 ```
 
 **-----------------------------------------------------
+
 Part of these tasks, we can emphasize the tests creation by specifying the
 details, test techniques or edge cases in the steering docs; so Kiro use those as skills, and implement the tests.
 Ex. Use playwright and create UI tests for end-to-end user scenarios
+
 -----------------------------------------------------**
 
 ### Steering Files
